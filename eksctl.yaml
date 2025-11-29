@@ -1,0 +1,17 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: safety-dev
+  region: us-east-1
+
+managedNodeGroups:
+- name: safety-dev
+  instanceTypes: ["t3.large"]
+  desiredCapacity: 2  ## if you not provide any number by default it will take 3
+  spot: true
+
+
+
+
+##eksctl create cluster -f eksctl.yaml
