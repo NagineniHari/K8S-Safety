@@ -50,6 +50,7 @@ metadata:
   name: frontend
   namespace: safety
 spec:
+  type: LoadBalancer
   selector:
     project: safety
     component: frontend
