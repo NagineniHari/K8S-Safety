@@ -1,3 +1,4 @@
+## ConfigMap
 apiVersion: v1
 kind: ConfigMap
 metadata: 
@@ -7,6 +8,7 @@ data:
   MONGO: "true"
   MONGO_URL: "mongodb://mongodb:27017/catalogue"
 ---
+## Deplyments
 apiVersion: apps/v1 
 kind: Deployment
 metadata:
@@ -56,6 +58,7 @@ spec:
           failureThreshold: 1
           periodSeconds: 20
 ---
+### Service creation
 apiVersion: v1 
 kind: Service
 metadata: 
