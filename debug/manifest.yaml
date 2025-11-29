@@ -10,5 +10,6 @@ spec:
   containers:
   - name: debug
     image: hanvihanshith/debug:v1
+    imagePullPolicy: Always
     
     
