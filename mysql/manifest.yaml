@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata: 
-  name: catalogue
+  name: mysql
   namespace: safety
 data: 
   my.cnf: |
