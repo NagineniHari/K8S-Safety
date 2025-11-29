@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: redis
+  namespace: safety
+data: 
+  MONGO: "true"
+  MONGO_URL: "mongodb://mongodb:27017/catalogue"
+---
+
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: redis
+  namespace: safety
+# these are deployment labels
+  labels:
+    project: safety
+    component: redis
+    tier: db
+spec:
+  replicas: 1
+  selector:
+    # these labels are used to select pods
+    matchLabels:
+      project: safety
+      component: redis
+      tier: db
+    # pod definitdion
+  template: 
+    metadata:
+      labels:
+        project: safety
+        component: redis
+        tier: db
+    spec:
+      containers:
+      - name: redis
+        image: redis:7.0
+        imagePullPolicy: Always
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 15
+          periodSeconds: 10
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: redis
+  namespace: safety
+spec:
+  selector:
+    project: safety
+    component: redis
+    tier: db
+  ports:
+    - protocol: TCP
+      port: 6379 ## services port
+      targetPort: 6379 ## container port
