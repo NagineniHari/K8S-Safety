@@ -37,3 +37,18 @@ spec:
             port: 27017
           initialDelaySeconds: 15
           periodSeconds: 10
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: mongodb
+  namespace: safety
+spec:
+  selector:
+    project: safety
+    component: mongodb
+    tier: db
+  ports:
+    - protocol: TCP
+      port: 27017 ## services port
+      targetPort: 27017 ## container port
