@@ -1,0 +1,29 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: mongodb
+  namespace: safety
+# these are deployment labels
+  labels:
+    project: safety
+    component: mongodb
+    tier: db
+spec:
+  replicas: 1
+  selector:
+    # these labels are used to select pods
+    matchLabels:
+      project: safety
+      component: mongodb
+      tier: db
+    # pod definitdion
+  template: 
+    metadata:
+      labels:
+        project: safety
+        component: mongodb
+        tier: db
+    spec:
+      containers:
+      - name: mongodb
+        image: hanvihanshith/mongodb:v1
