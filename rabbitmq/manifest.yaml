@@ -1,0 +1,55 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: rabbitmq
+  namespace: safety
+# these are deployment labels
+  labels:
+    project: safety
+    component: rabbitmq
+    tier: db
+spec:
+  replicas: 1
+  selector:
+    # these labels are used to select pods
+    matchLabels:
+      project: safety
+      component: rabbitmq
+      tier: db
+    # pod definitdion
+  template: 
+    metadata:
+      labels:
+        project: safety
+        component: rabbitmq
+        tier: db
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:7.0
+        imagePullPolicy: Always
+        readinessProbe:
+          tcpSocket:
+            port: 5672
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 5672
+          initialDelaySeconds: 15
+          periodSeconds: 10
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: rabbitmq
+  namespace: safety
+spec:
+  selector:
+    project: safety
+    component: rabbitmq
+    tier: db
+  ports:
+    - protocol: TCP
+      port: 5672 ## services port
+      targetPort: 5672 ## container port
