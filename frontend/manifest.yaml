@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: frontend
+  namespace: safety
+data: 
+ 
+  CART_HOST: "cart"
+  CART_PORT: "8080"
+  USER_HOST: "user"
+  USER_PORT: "8080"
+  AMQP_HOST: "rabbitmq"
+  AMQP_USER: "roboshop"
+  AMQP_PASS: "roboshop123"
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: safety
+# these are deployment labels
+  labels:
+    project: safety
+    component: frontend
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    # these labels are used to select pods
+    matchLabels:
+      project: safety
+      component: frontend
+      tier: frontend-user
+    # pod definitdion
+  template: 
+    metadata:
+      labels:
+        project: safety
+        component: frontend
+        tier: frontend-user
+    spec:
+      containers:
+      - name: frontend
+        image: hanvihanshith/frontend:v1
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: frontend
+        ports: 
+        - name: liveness-port
+          containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80 
+          failureThreshold: 1
+          periodSeconds: 20
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80 
+          failureThreshold: 1
+          periodSeconds: 30
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: frontend
+  namespace: safety
+spec:
+  selector:
+    project: safety
+    component: frontend
+    tier: frontend-user
+  ports:
+    - protocol: TCP
+      port: 80 ## services port
+      targetPort: 80 ## container port
