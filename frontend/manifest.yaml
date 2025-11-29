@@ -28,9 +28,6 @@ spec:
       - name: frontend
         image: hanvihanshith/frontend:v1
         imagePullPolicy: Always
-        envFrom:
-        - configMapRef:
-            name: frontend
         ports: 
         - name: liveness-port
           containerPort: 80
