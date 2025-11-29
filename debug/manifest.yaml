@@ -1,0 +1,13 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: debug
+  namespace: safety
+  labels: 
+    name: debug
+    project: safety
+spec:
+  containers:
+  - name: debug
+    image: hanvihanshith/debug:v1
+    
