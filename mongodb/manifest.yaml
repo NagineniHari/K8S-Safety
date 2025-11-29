@@ -29,11 +29,11 @@ spec:
         image: hanvihanshith/mongodb:v1
         readinessProbe:
           tcpSocket:
-          port: 27017
+            port: 27017
           initialDelaySeconds: 20
           periodSeconds: 10
         livenessProbe:
           tcpSocket:
-          port: 27017
+            port: 27017
           initialDelaySeconds: 15
           periodSeconds: 10
