@@ -1,4 +1,4 @@
-resource "aws_instance" "kubernetes" {
+resource "aws_instance" "workstation" {
   ami                    = "ami-09c813fb71547fc4f"
   instance_type          = "t2.micro"
 
