@@ -9,7 +9,7 @@ resource "aws_instance" "workstation" {
   }
   user_data = file("workstation.sh")
   tags ={
-      Name = "Kubernetes"
+      Name = "workstation"
     }
 }
 
